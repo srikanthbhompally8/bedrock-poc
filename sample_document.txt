@@ -1,0 +1,19 @@
+Project Aurora — Internal Briefing
+
+Project Aurora is a company-wide initiative to modernize the image-delivery pipeline.
+It launched on March 3, 2025 and is led by the Platform Infrastructure team. The goal
+is to cut the median image-processing latency from 820 milliseconds to under 300
+milliseconds by the end of Q4 2025.
+
+The rollout has three phases. Phase 1 (April–June) migrates the storage layer to a
+regional object store. Phase 2 (July–September) introduces an edge caching tier in
+five regions: us-east-1, us-west-2, eu-west-1, ap-south-1, and sa-east-1. Phase 3
+(October–December) rewrites the transform service in Rust and enables autoscaling.
+
+Budget for the fiscal year is 2.4 million dollars, with roughly 60 percent allocated
+to the edge caching tier. The primary risk called out by the steering committee is
+regional capacity during the Phase 2 edge rollout, particularly in ap-south-1, where
+GPU instances are frequently constrained.
+
+The executive sponsor is Dana Whitfield, VP of Infrastructure. Weekly status updates
+are published every Friday to the #aurora-status channel.

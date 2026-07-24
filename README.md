@@ -1,33 +1,47 @@
 # Amazon Bedrock POC
 
-A small, self-contained proof of concept that calls **Amazon Bedrock** to demonstrate
-three common LLM use cases from one shared core:
+A production-ready proof of concept demonstrating AI-powered features using **Amazon Bedrock**
+with Claude 3.5 Sonnet. Includes five integrated use cases:
 
-1. **Chat** — a multi-turn conversation that keeps context across turns.
-2. **Document summarization** — condense a document into a faithful summary.
-3. **Document Q&A** — answer questions grounded strictly in a supplied document.
+1. **Chat** — Multi-turn conversations with persistent context
+2. **Document Summarization** — Condense documents into faithful summaries
+3. **Document Q&A** — Answer questions grounded strictly in supplied documents
+4. **Resume Parsing** — Extract structured data from resumes (JSON output)
+5. **RAG (Retrieval-Augmented Generation)** — Semantic search over large documents
 
 It ships with **two interfaces** over the same code:
 
-- a **CLI** (`cli.py`)
-- a **Streamlit web UI** (`app.py`)
+- a **CLI** (`cli.py`) — Command-line interface for scripts and automation
+- a **Streamlit web UI** (`app.py`) — Interactive web application
 
 All Bedrock access goes through `boto3`'s `bedrock-runtime` client and the Bedrock
 **Converse API**, so the app is model-agnostic — switch models with one env var.
+The app is **deployed on EC2 with Nginx** and available as a live service.
 
 ## Project layout
 
 ```
 bedrock-poc/
 ├── bedrock_poc/
-│   ├── client.py      # boto3 bedrock-runtime client + converse() / converse_stream()
-│   └── use_cases.py   # chat_turn(), summarize_document(), answer_question()
-├── cli.py             # command-line interface (chat / summarize / ask)
-├── app.py             # Streamlit web UI (Chat / Summarize / Q&A tabs)
-├── tests/             # offline smoke tests (fake client — no AWS needed)
-├── sample_document.txt
-├── requirements.txt
-└── .env.example
+│   ├── client.py          # boto3 bedrock-runtime client + converse() / converse_stream()
+│   ├── use_cases.py       # chat_turn(), summarize_document(), answer_question(), 
+│   │                      # parse_resume(), answer_question_with_rag()
+│   ├── models.py          # Pydantic data models (ResumeParsed)
+│   ├── vector_store.py    # DocumentStore for RAG (chunking, embedding, retrieval)
+│   └── __init__.py
+├── cli.py                 # Command-line interface (chat / summarize / ask / parse / RAG support)
+├── app.py                 # Streamlit web UI (Chat / Summarize / Q&A / Parse Resume / RAG toggle)
+├── tests/                 # Offline smoke tests (fake client — no AWS needed)
+├── config/                # Deployment configuration
+│   ├── bedrock-poc.service   # Systemd service for EC2
+│   └── nginx.conf            # Nginx reverse proxy config
+├── sample_document.txt    # Sample document for testing
+├── requirements.txt       # Python dependencies
+├── .env.example          # Environment variable template
+├── README.md             # This file
+├── ARCHITECTURE.md       # System design and components
+├── AWS_SETUP.md         # Bedrock configuration and IAM setup
+└── DEPLOYMENT.md        # EC2 and Nginx deployment guide
 ```
 
 ## Prerequisites
@@ -69,8 +83,14 @@ python cli.py chat
 # Summarize a document
 python cli.py summarize --file sample_document.txt
 
-# Ask a grounded question about a document
+# Ask a grounded question about a document (basic Q&A, up to 40k chars)
 python cli.py ask --file sample_document.txt --question "Who is the executive sponsor?"
+
+# Ask a question with RAG (semantic search for large documents)
+python cli.py ask --file large_document.txt --question "What is the main topic?" --use-rag
+
+# Parse a resume and extract structured data (JSON output)
+python cli.py parse --file resume.pdf
 ```
 
 Add `--verbose` for DEBUG logging.
@@ -93,13 +113,57 @@ pip install pytest
 python -m pytest tests/ -v
 ```
 
-## Notes / limitations (it's a POC)
+## Features in Detail
 
-- **Document Q&A puts the whole document in the prompt** (in-context grounding). Large
-  documents are truncated at ~40k characters. Production RAG would chunk the document
-  and retrieve only the most relevant pieces (e.g. via a Bedrock Knowledge Base +
-  vector store) instead of truncating.
-- Only plain-text/markdown input is supported. PDFs/Word docs would need an extraction
-  step first.
-- Conversation history is kept in memory for the session only; nothing is persisted.
+### Chat
+- Multi-turn conversation with persistent context within a session
+- Supports free-form questions and responses
+- Real-time streaming via CLI and web UI
+
+### Document Summarization
+- Faithful, concise summaries that preserve key facts and numbers
+- Supports text, markdown, and PDF input
+- Works with documents up to 40k characters (or unlimited with RAG)
+
+### Document Q&A
+- Grounded answers using only supplied document content
+- Basic mode: Documents up to 40k characters
+- **RAG mode** (NEW): Unlimited document size via semantic search
+  - Automatically chunks large documents
+  - Retrieves only relevant sections (top-3 by default)
+  - Provides context-aware, accurate answers
+
+### Resume Parsing (NEW)
+- Extracts structured data from resumes (PDF/text)
+- Returns JSON with: name, email, phone, skills, experience, education
+- Type-safe validation using Pydantic
+- Reusable for HR automation and job matching
+
+### RAG Implementation (NEW)
+- Semantic search using AWS Bedrock Embeddings (Titan v2)
+- In-memory document store with configurable chunking
+- Efficiently handles documents of any size
+- Cosine similarity ranking for relevance
+
+## Architecture & Deployment
+
+- **Backend**: Python 3.10+ with Pydantic for type safety
+- **Web UI**: Streamlit (interactive, zero-config)
+- **CLI**: Click-based command-line interface for automation
+- **Cloud**: AWS Bedrock (Claude 3.5 Sonnet + Titan Embeddings)
+- **Deployment**: EC2 instance with Nginx reverse proxy
+- **Service Management**: Systemd for process monitoring and auto-restart
+
+See **ARCHITECTURE.md**, **AWS_SETUP.md**, and **DEPLOYMENT.md** for complete details.
+
+## Notes / Limitations
+
+- **In-memory state**: Conversation history and document embeddings are kept in memory
+  for the session only; nothing is persisted to a database. Production use would add
+  persistent vector storage (e.g., Pinecone, Weaviate) and conversation history.
+- **Stateless design**: Each instance is independent. Horizontal scaling requires
+  external session/vector storage.
+- **Batch processing**: The resume parser and RAG engine currently process one item at
+  a time. Production might add batch APIs for bulk processing.
+
 ```

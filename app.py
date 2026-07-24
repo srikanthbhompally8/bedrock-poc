@@ -14,9 +14,14 @@ from __future__ import annotations
 import logging
 
 import streamlit as st
+from dotenv import load_dotenv
 
 from bedrock_poc import client as bedrock
 from bedrock_poc import use_cases
+
+# Load variables from a local .env file (if present) into the environment before
+# anything reads BEDROCK_MODEL_ID / AWS_REGION. No-op if .env doesn't exist.
+load_dotenv()
 
 # Basic logging so Bedrock warnings (e.g. document truncation) show up in the console
 # where the operator launched Streamlit.
@@ -168,6 +173,13 @@ def render_qa_tab(client) -> None:
 
     question = st.text_input("Your question")
 
+    # Toggle for RAG mode
+    use_rag = st.checkbox(
+        "Use RAG (Retrieval-Augmented Generation)",
+        value=False,
+        help="Chunks large documents and retrieves relevant sections. Better for documents >5000 chars."
+    )
+
     if st.button("Ask", type="primary"):
         if not document.strip():
             st.warning("Please provide a document.")
@@ -177,12 +189,76 @@ def render_qa_tab(client) -> None:
             return
         with st.spinner("Thinking…"):
             try:
-                answer = use_cases.answer_question(client, document, question)
+                if use_rag:
+                    st.info("ℹ️ Using RAG mode: chunking document and retrieving relevant sections…")
+                    answer = use_cases.answer_question_with_rag(client, document, question)
+                else:
+                    answer = use_cases.answer_question(client, document, question)
             except (ValueError, RuntimeError) as err:
                 st.error(str(err))
                 return
         st.markdown("### Answer")
         st.write(answer)
+
+
+def render_parse_tab(client) -> None:
+    """Render the resume parsing tab.
+
+    Args:
+        client: A ``bedrock-runtime`` client.
+    """
+    st.subheader("Parse a Resume")
+    st.caption("Upload a resume to extract and structure key information.")
+
+    uploaded = st.file_uploader(
+        "Upload a resume (.txt / .pdf / .md)", type=["txt", "pdf", "md"], key="parse_upload"
+    )
+    pasted = st.text_area("…or paste resume text here", height=250, key="parse_paste")
+    resume_text = _read_upload(uploaded) or pasted
+
+    if st.button("Parse Resume", type="primary"):
+        if not resume_text.strip():
+            st.warning("Please provide a resume.")
+            return
+        with st.spinner("Parsing resume…"):
+            try:
+                parsed = use_cases.parse_resume(client, resume_text)
+            except (ValueError, RuntimeError) as err:
+                st.error(str(err))
+                return
+
+        st.markdown("### Parsed Resume")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown(f"**Name:** {parsed.full_name}")
+            st.markdown(f"**Email:** {parsed.email}")
+            if parsed.phone:
+                st.markdown(f"**Phone:** {parsed.phone}")
+        with col2:
+            if parsed.summary:
+                st.markdown(f"**Summary:** {parsed.summary}")
+
+        if parsed.skills:
+            st.markdown("### Skills")
+            st.write(", ".join(parsed.skills))
+
+        if parsed.experience:
+            st.markdown("### Experience")
+            for exp in parsed.experience:
+                st.markdown(f"**{exp.get('title', 'N/A')}** @ {exp.get('company', 'N/A')}")
+                st.caption(f"{exp.get('dates', 'N/A')}")
+                if exp.get('description'):
+                    st.write(exp['description'])
+
+        if parsed.education:
+            st.markdown("### Education")
+            for edu in parsed.education:
+                st.markdown(f"**{edu.get('degree', 'N/A')}** in {edu.get('field', 'N/A')}")
+                st.caption(f"{edu.get('school', 'N/A')} ({edu.get('year', 'N/A')})")
+
+        # Show raw JSON in expandable section
+        with st.expander("View Raw JSON"):
+            st.json(parsed.model_dump())
 
 
 def main() -> None:
@@ -199,13 +275,15 @@ def main() -> None:
         st.stop()
 
     # One tab per use case; each renders independently against the same client.
-    chat_tab, summary_tab, qa_tab = st.tabs(["Chat", "Summarize", "Q&A"])
+    chat_tab, summary_tab, qa_tab, parse_tab = st.tabs(["Chat", "Summarize", "Q&A", "Parse Resume"])
     with chat_tab:
         render_chat_tab(client)
     with summary_tab:
         render_summarize_tab(client)
     with qa_tab:
         render_qa_tab(client)
+    with parse_tab:
+        render_parse_tab(client)
 
 
 if __name__ == "__main__":

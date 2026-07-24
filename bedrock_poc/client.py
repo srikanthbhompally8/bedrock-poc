@@ -219,3 +219,47 @@ def converse_stream(
         ) from err
     except BotoCoreError as err:
         raise RuntimeError(f"Bedrock streaming request failed due to a network/SDK error: {err}") from err
+
+
+def embed_text(client, texts: list[str]) -> list[list[float]]:
+    """Generate embeddings for a list of texts using Bedrock's Titan model.
+
+    Args:
+        client: A ``bedrock-runtime`` client from :func:`build_client`.
+        texts: List of text strings to embed.
+
+    Returns:
+        List of embedding vectors, one per input text.
+
+    Raises:
+        RuntimeError: On any Bedrock/network error.
+    """
+    if not texts:
+        return []
+
+    import json
+
+    embeddings = []
+    for text in texts:
+        try:
+            response = client.invoke_model(
+                modelId="amazon.titan-embed-text-v2:0",
+                body=json.dumps({"inputText": text}),
+                contentType="application/json",
+                accept="application/json",
+            )
+
+            response_body = json.loads(response["body"].read().decode("utf-8"))
+            embedding = response_body.get("embedding", [])
+            embeddings.append(embedding)
+
+        except ClientError as err:
+            code = err.response.get("Error", {}).get("Code", "Unknown")
+            raise RuntimeError(
+                f"Embedding request failed ({code}). "
+                f"Confirm the Titan Embedding model is enabled in your region. Cause: {err}"
+            ) from err
+        except BotoCoreError as err:
+            raise RuntimeError(f"Embedding request failed due to a network/SDK error: {err}") from err
+
+    return embeddings

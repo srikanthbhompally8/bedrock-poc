@@ -20,8 +20,14 @@ import logging
 import sys
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from bedrock_poc import client as bedrock
 from bedrock_poc import use_cases
+
+# Load variables from a local .env file (if present) into the environment before
+# anything reads BEDROCK_MODEL_ID / AWS_REGION. No-op if .env doesn't exist.
+load_dotenv()
 
 # Configure logging once, here at the entry point. INFO by default; flip to DEBUG with
 # the --verbose flag. We keep the format short so it reads cleanly in a terminal.
@@ -118,17 +124,41 @@ def _run_ask(client, args: argparse.Namespace) -> None:
     Args:
         client: A ``bedrock-runtime`` client.
         args: Parsed CLI arguments (expects ``args.file``, ``args.question``,
-            ``args.max_tokens``).
+            ``args.max_tokens``, ``args.use_rag``).
     """
     document = _read_document(args.file)
     try:
-        answer = use_cases.answer_question(
-            client, document, args.question, max_tokens=args.max_tokens
-        )
+        if args.use_rag:
+            log.info("Using RAG mode for Q&A")
+            answer = use_cases.answer_question_with_rag(
+                client, document, args.question, max_tokens=args.max_tokens
+            )
+        else:
+            answer = use_cases.answer_question(
+                client, document, args.question, max_tokens=args.max_tokens
+            )
     except (ValueError, RuntimeError) as err:
         sys.exit(f"Error: {err}")
 
     print(answer)
+
+
+def _run_parse(client, args: argparse.Namespace) -> None:
+    """Parse a resume file and print structured information as JSON.
+
+    Args:
+        client: A ``bedrock-runtime`` client.
+        args: Parsed CLI arguments (expects ``args.file``).
+    """
+    document = _read_document(args.file)
+    try:
+        parsed = use_cases.parse_resume(client, document)
+    except (ValueError, RuntimeError) as err:
+        sys.exit(f"Error: {err}")
+
+    # Print as formatted JSON for readability
+    import json
+    print(json.dumps(parsed.model_dump(), indent=2))
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -159,7 +189,7 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Max tokens for the summary (default: 512).",
     )
 
-    # ask --file --question [--max-tokens]
+    # ask --file --question [--max-tokens] [--use-rag]
     p_ask = subparsers.add_parser("ask", help="Ask a question about a text document.")
     p_ask.add_argument("--file", required=True, help="Path to the source text file.")
     p_ask.add_argument("--question", required=True, help="The question to answer.")
@@ -167,6 +197,14 @@ def _build_parser() -> argparse.ArgumentParser:
         "--max-tokens", type=int, default=512, dest="max_tokens",
         help="Max tokens for the answer (default: 512).",
     )
+    p_ask.add_argument(
+        "--use-rag", action="store_true", dest="use_rag",
+        help="Use RAG (chunking + semantic retrieval) for large documents instead of truncation."
+    )
+
+    # parse --file
+    p_parse = subparsers.add_parser("parse", help="Parse a resume and extract structured information.")
+    p_parse.add_argument("--file", required=True, help="Path to a resume file (text or PDF).")
 
     return parser
 
@@ -201,6 +239,8 @@ def main(argv: list[str] | None = None) -> None:
         _run_summarize(client, args)
     elif args.command == "ask":
         _run_ask(client, args)
+    elif args.command == "parse":
+        _run_parse(client, args)
 
 
 if __name__ == "__main__":

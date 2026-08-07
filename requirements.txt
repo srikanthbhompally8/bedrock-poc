@@ -8,3 +8,9 @@ python-dotenv>=1.0
 pydantic>=2.0
 # PDF parsing for resume extraction.
 pypdf>=4.0
+# Database support — PostgreSQL adapter for persistent storage.
+psycopg2-binary>=2.9
+# SQL toolkit and ORM for database operations.
+sqlalchemy>=2.0
+# Database migration tool for schema management.
+alembic>=1.12

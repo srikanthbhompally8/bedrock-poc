@@ -101,3 +101,22 @@ class Question(Base):
 
     def __repr__(self) -> str:
         return f"<Question(session={self.session_id}, rag={bool(self.used_rag)})>"
+
+
+class JobListing(Base):
+    """Stores parsed job descriptions."""
+
+    __tablename__ = "job_listings"
+
+    id = Column(Integer, primary_key=True)
+    job_title = Column(String(255), nullable=False, index=True)
+    company = Column(String(255), nullable=True, index=True)
+    raw_description = Column(Text, nullable=False)
+    parsed_data = Column(JSON, nullable=False)
+    years_required = Column(Integer, nullable=True)
+    embedding = Column(ARRAY(Float), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    metadata_json = Column(JSON, nullable=True)
+
+    def __repr__(self) -> str:
+        return f"<JobListing(title={self.job_title}, company={self.company})>"

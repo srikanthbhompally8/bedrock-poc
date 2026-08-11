@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 from typing import Generator
+from urllib.parse import quote
 
 from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import sessionmaker, Session, declarative_base
@@ -32,7 +33,8 @@ def get_database_url() -> str:
     port = os.getenv("DB_PORT", "5432")
     db_name = os.getenv("DB_NAME", "bedrock_poc")
 
-    return f"postgresql://{user}:{password}@{host}:{port}/{db_name}"
+    escaped_password = quote(password, safe="")
+    return f"postgresql://{user}:{escaped_password}@{host}:{port}/{db_name}"
 
 
 def create_db_engine(url: str | None = None) -> Engine:

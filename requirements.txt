@@ -9,6 +9,10 @@ botocore>=1.43,<2.0
 # Web UI
 streamlit>=1.32,<2.0
 
+# REST API Framework
+fastapi>=0.104,<1.0
+uvicorn>=0.24,<1.0
+
 # Environment configuration
 python-dotenv>=1.0,<2.0
 

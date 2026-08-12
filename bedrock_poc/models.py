@@ -1,6 +1,7 @@
 """Data models for structured output from Bedrock."""
 
 from pydantic import BaseModel, ConfigDict, Field
+from typing import Optional, List
 
 
 class ResumeParsed(BaseModel):
@@ -53,3 +54,38 @@ class ResumeParsed(BaseModel):
         default_factory=list,
         description="Education entries with degree, school, year, and major"
     )
+
+
+class Skill(BaseModel):
+    """Represents a skill with proficiency level and importance."""
+
+    name: str = Field(..., description="Skill name (e.g., Python, AWS)")
+    proficiency: str = Field(..., description="Proficiency level: beginner, intermediate, or expert")
+    importance: int = Field(..., ge=1, le=10, description="Importance score from 1-10")
+
+
+class JobDescription(BaseModel):
+    """Structured representation of a parsed job description."""
+
+    job_title: str = Field(..., description="Job title")
+    company: Optional[str] = Field(None, description="Company name")
+    years_required: int = Field(..., ge=0, description="Years of experience required")
+    core_skills: List[Skill] = Field(default_factory=list, description="Required core skills")
+    nice_to_have: List[str] = Field(default_factory=list, description="Nice-to-have skills")
+    education: str = Field(..., description="Required education level")
+    salary_min: Optional[int] = Field(None, description="Minimum salary")
+    salary_max: Optional[int] = Field(None, description="Maximum salary")
+
+
+class ParseJobRequest(BaseModel):
+    """Request model for job parsing API endpoint."""
+
+    job_description: str = Field(..., description="Raw job description text to parse", min_length=10)
+
+
+class ParseJobResponse(BaseModel):
+    """Response model for job parsing API endpoint."""
+
+    status: str = Field(..., description="Response status: success or error")
+    data: Optional[JobDescription] = Field(None, description="Parsed job data (null if error)")
+    message: Optional[str] = Field(None, description="Error message if status is error")

@@ -1,8 +1,9 @@
 """Candidate Search API endpoints."""
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
+from bedrock_poc.auth import User, UserRole, require_any_permission, Permission
 
 router = APIRouter(prefix="/api/candidates", tags=["candidates"])
 
@@ -53,13 +54,15 @@ class SearchCandidatesRequest(BaseModel):
 @router.get("/", response_model=dict)
 def search_candidates(
     skills: Optional[List[str]] = None,
-    limit: int = 10
+    limit: int = 10,
+    current_user: User = Depends(require_any_permission(Permission.READ_CANDIDATE, Permission.MANAGE_CANDIDATES))
 ):
-    """Search candidates by skills.
+    """Search candidates by skills (Recruiter+ only).
 
     Args:
         skills: List of skills to filter by
         limit: Maximum candidates to return
+        current_user: Current authenticated user (must be recruiter or admin)
 
     Returns:
         List of matching candidates
@@ -84,11 +87,15 @@ def search_candidates(
 
 
 @router.post("/search", response_model=dict)
-def advanced_search(request: SearchCandidatesRequest):
-    """Advanced candidate search with multiple filters.
+def advanced_search(
+    request: SearchCandidatesRequest,
+    current_user: User = Depends(require_any_permission(Permission.READ_CANDIDATE, Permission.MANAGE_CANDIDATES))
+):
+    """Advanced candidate search with multiple filters (Recruiter+ only).
 
     Args:
         request: SearchCandidatesRequest with query, skills, min_experience
+        current_user: Current authenticated user (must be recruiter or admin)
 
     Returns:
         Filtered list of candidates
@@ -121,11 +128,15 @@ def advanced_search(request: SearchCandidatesRequest):
 
 
 @router.get("/{candidate_id}", response_model=dict)
-def get_candidate(candidate_id: int):
-    """Get candidate profile.
+def get_candidate(
+    candidate_id: int,
+    current_user: User = Depends(require_any_permission(Permission.READ_CANDIDATE, Permission.MANAGE_CANDIDATES))
+):
+    """Get candidate profile (Recruiter+ only, or candidate viewing own profile).
 
     Args:
         candidate_id: ID of the candidate
+        current_user: Current authenticated user
 
     Returns:
         Candidate details

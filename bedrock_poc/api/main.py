@@ -2,12 +2,12 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from bedrock_poc.api import auth
+from bedrock_poc.api import auth, jobs, candidates, matches, audit
 
 app = FastAPI(
     title="Bedrock POC API",
-    description="AI-powered recruitment platform with JWT authentication",
-    version="1.0.0"
+    description="AI-powered recruitment platform with JWT authentication and RBAC",
+    version="2.0.0"
 )
 
 # Add CORS middleware
@@ -21,6 +21,10 @@ app.add_middleware(
 
 # Include routers
 app.include_router(auth.router)
+app.include_router(jobs.router)
+app.include_router(candidates.router)
+app.include_router(matches.router)
+app.include_router(audit.router)
 
 # Health check
 @app.get("/")

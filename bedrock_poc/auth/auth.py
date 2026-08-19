@@ -7,6 +7,7 @@ from jose import JWTError, jwt
 from bedrock_poc.auth.models import (
     User, UserCreate, TokenPayload, Token, UserRole
 )
+from bedrock_poc.auth.token_blacklist import get_token_blacklist
 
 # Configuration
 SECRET_KEY = "your-secret-key-change-in-production"  # TODO: Move to .env
@@ -120,6 +121,11 @@ class AuthService:
         Returns:
             TokenPayload if valid, None if invalid
         """
+        # Check if token is blacklisted
+        blacklist = get_token_blacklist()
+        if blacklist.is_blacklisted(token):
+            return None
+
         try:
             payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
 
@@ -170,6 +176,27 @@ class AuthService:
             return (user_id, email)
         except JWTError:
             return None
+
+    @staticmethod
+    def revoke_token(token: str) -> bool:
+        """Revoke a token by adding it to the blacklist.
+
+        Args:
+            token: JWT token to revoke
+
+        Returns:
+            True if revoked, False if already revoked
+        """
+        try:
+            # Decode to get expiration time
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            expires_at = datetime.fromtimestamp(payload.get("exp"))
+
+            # Add to blacklist
+            blacklist = get_token_blacklist()
+            return blacklist.revoke_token(token, expires_at)
+        except JWTError:
+            return False
 
 
 class UserService:

@@ -35,6 +35,18 @@ from bedrock_poc.auth.authorization import (
     has_all_permissions,
 )
 
+from bedrock_poc.auth.api_key import (
+    APIKeyCreate,
+    APIKeyResponse,
+    APIKeySecret,
+    APIKeyService,
+)
+
+from bedrock_poc.auth.token_blacklist import (
+    TokenBlacklist,
+    get_token_blacklist,
+)
+
 __all__ = [
     # Models
     "User",
@@ -63,4 +75,12 @@ __all__ = [
     "has_permission",
     "has_any_permission",
     "has_all_permissions",
+    # API Keys
+    "APIKeyCreate",
+    "APIKeyResponse",
+    "APIKeySecret",
+    "APIKeyService",
+    # Token Blacklist
+    "TokenBlacklist",
+    "get_token_blacklist",
 ]

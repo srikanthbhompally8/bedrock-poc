@@ -1,0 +1,199 @@
+# Docker Compose for Production Deployment
+# WARNING: This is read-only template. Configure secrets in environment or Secrets Manager.
+# Start with: docker-compose -f docker-compose.production.yml up
+
+version: '3.8'
+
+services:
+  # Bedrock POC Application (connects to managed RDS + ElastiCache)
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bedrock-api-prod
+    restart: always
+    environment:
+      # Application
+      ENVIRONMENT: production
+      DEBUG: "false"
+      RELOAD: "false"
+      HOST: 0.0.0.0
+      PORT: 8000
+      WORKERS: 8
+
+      # Database (AWS RDS)
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_POOL_MIN_SIZE: 10
+      DB_POOL_MAX_SIZE: 50
+      DB_POOL_RECYCLE: 3600
+      DB_SSL_MODE: require
+
+      # Redis Cache (AWS ElastiCache)
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DB: 0
+      REDIS_ENABLED: "true"
+
+      # AWS Bedrock
+      BEDROCK_MODEL_ID: ${BEDROCK_MODEL_ID:-us.anthropic.claude-3-5-sonnet-20241022-v2:0}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      BEDROCK_REQUEST_TIMEOUT: 300
+      BEDROCK_MAX_RETRIES: 3
+
+      # Authentication & Security
+      AUTH_JWT_SECRET_KEY: ${AUTH_JWT_SECRET_KEY}
+      AUTH_JWT_ALGORITHM: HS256
+      AUTH_JWT_EXPIRATION_HOURS: 24
+      AUTH_RATE_LIMIT_REQUESTS: 100
+      AUTH_RATE_LIMIT_WINDOW_SECONDS: 60
+      AUTH_ENABLE_CORS: "false"
+      AUTH_CORS_ORIGINS: ${AUTH_CORS_ORIGINS}
+
+      # Logging
+      LOG_LEVEL: INFO
+      LOG_FORMAT: json
+      LOG_ENABLE_REQUEST_LOGGING: "true"
+      LOG_ENABLE_DATABASE_LOGGING: "false"
+      LOG_LOG_FILE: /var/log/bedrock-poc/app.log
+      LOG_SENTRY_DSN: ${SENTRY_DSN}
+
+      # Monitoring
+      MONITOR_ENABLE_METRICS: "true"
+      MONITOR_METRICS_PORT: 9090
+      MONITOR_ENABLE_HEALTH_CHECKS: "true"
+      MONITOR_HEALTH_CHECK_INTERVAL: 30
+      MONITOR_ENABLE_REQUEST_TRACING: "true"
+      MONITOR_JAEGER_ENABLED: "true"
+      MONITOR_JAEGER_HOST: ${JAEGER_HOST}
+      MONITOR_JAEGER_PORT: 6831
+
+      # Features
+      ENABLE_AUDIT_LOGGING: "true"
+      ENABLE_RATE_LIMITING: "true"
+
+      # AWS Credentials (use IAM role instead in production)
+      # AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      # AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+
+    ports:
+      - "8000:8000"    # API (behind reverse proxy)
+      - "9090:9090"    # Metrics (internal only)
+
+    volumes:
+      - /var/log/bedrock-poc:/var/log/bedrock-poc
+      - /var/lib/bedrock-poc:/var/lib/bedrock-poc
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+    networks:
+      - bedrock-production
+
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1.5'
+          memory: 1G
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+
+  # Nginx Reverse Proxy with SSL/TLS
+  nginx:
+    image: nginx:alpine
+    container_name: bedrock-nginx-prod
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - api
+    networks:
+      - bedrock-production
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+
+  # Prometheus for metrics (optional, use CloudWatch in AWS)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: bedrock-prometheus-prod
+    restart: always
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "9091:9090"
+    networks:
+      - bedrock-production
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+    profiles:
+      - monitoring
+
+  # Grafana for metrics visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: bedrock-grafana-prod
+    restart: always
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      GF_SECURITY_ADMIN_USER: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana-dashboards:/etc/grafana/provisioning/dashboards:ro
+    depends_on:
+      - prometheus
+    networks:
+      - bedrock-production
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+    profiles:
+      - monitoring
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  nginx_logs:
+
+networks:
+  bedrock-production:
+    driver: bridge

@@ -444,11 +444,7 @@ class LoadTestScenarios:
         duration = 300  # 5 minutes for initial testing
         concurrent_users = 10
 
-        # Setup: Register and login
-        success, _ = await client.register_test_user(LoadTestConfig.TEST_USER_EMAIL, LoadTestConfig.TEST_USER_PASSWORD)
-        if not success:
-            print(f"User already exists or registration failed")
-
+        # Setup: Login (user is created on server startup)
         success, token = await client.login_user(LoadTestConfig.TEST_USER_EMAIL, LoadTestConfig.TEST_USER_PASSWORD)
         if not success:
             raise Exception("Failed to login test user")

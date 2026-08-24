@@ -52,6 +52,38 @@ class PerformanceTestOrchestrator:
         print(f" {title.center(78)}")
         print("="*80 + "\n")
 
+    def setup_test_users(self):
+        """Create test users before running tests."""
+        try:
+            from bedrock_poc.auth import UserService, UserCreate, UserRole
+
+            test_users = [
+                UserCreate(
+                    email="testuser@example.com",
+                    password="TestPassword123!",
+                    full_name="Test User",
+                    role=UserRole.RECRUITER
+                ),
+                UserCreate(
+                    email="admin@example.com",
+                    password="AdminPassword123!",
+                    full_name="Admin User",
+                    role=UserRole.ADMIN
+                ),
+            ]
+
+            log.info("Setting up test users...")
+
+            for user_data in test_users:
+                user, success = UserService.register_user(user_data)
+                if success:
+                    log.info(f"Created test user: {user.email}")
+                else:
+                    log.info(f"Test user already exists: {user_data.email}")
+
+        except Exception as e:
+            log.error(f"Error setting up test users: {e}", exc_info=True)
+
     async def run_async_tests(self):
         """Run async performance tests."""
         try:
@@ -161,6 +193,10 @@ class PerformanceTestOrchestrator:
                 log.warning("  uvicorn bedrock_poc.api.main:app --host 0.0.0.0 --port 8000 --reload")
                 log.warning("\nOr run this script again once the API is running.")
                 return False
+
+            # Setup test users
+            log.info("Setting up test users...")
+            self.setup_test_users()
 
             # Run tests
             log.info("Running performance tests...")

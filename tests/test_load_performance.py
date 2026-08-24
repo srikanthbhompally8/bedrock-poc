@@ -295,7 +295,7 @@ class PerformanceTestClient:
             try:
                 start = time.time()
                 response = await client.get(
-                    f"{self.base_url}/api/health",
+                    f"{self.base_url}/health",
                     timeout=5
                 )
                 elapsed = (time.time() - start) * 1000

@@ -15,8 +15,8 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
-# Password hashing (using argon2 for better Python 3.12 compatibility)
-pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
+# Password hashing (using bcrypt for better compatibility)
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # In-memory user database (replace with PostgreSQL in production)
 users_db = {}

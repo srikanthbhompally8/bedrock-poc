@@ -40,6 +40,8 @@ prometheus-client>=0.19,<1.0
 
 # Security & hashing
 bcrypt>=4.1,<5.0
+passlib>=1.7,<2.0
+python-jose>=3.3,<4.0
 
 # Request validation & security
 email-validator>=2.1,<3.0

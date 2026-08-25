@@ -82,7 +82,7 @@ class BedrockSettings(BaseSettings):
     """AWS Bedrock configuration."""
 
     model_id: str = Field(
-        default="anthropic.claude-3-5-sonnet-20241022-v2:0",
+        default="anthropic.claude-haiku-4-5-20251001-v2:0",
         description="Bedrock model ID",
     )
     region: str = Field(default="us-east-1", description="AWS region")

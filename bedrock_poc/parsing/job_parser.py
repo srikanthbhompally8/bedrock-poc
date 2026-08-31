@@ -1,26 +1,9 @@
 """Job description parser using Claude."""
 
 import json
-from pydantic import BaseModel
-from typing import List, Optional
+import re
 from bedrock_poc.client import build_client, converse
-
-
-class Skill(BaseModel):
-    name: str
-    proficiency: str  # "beginner", "intermediate", "expert"
-    importance: int   # 1-10
-
-
-class JobDescription(BaseModel):
-    job_title: str
-    company: Optional[str] = None
-    years_required: int
-    core_skills: List[Skill]
-    nice_to_have: List[str]
-    education: str
-    salary_min: Optional[int] = None
-    salary_max: Optional[int] = None
+from bedrock_poc.models import JobDescription
 
 
 def parse_job_description(text: str) -> JobDescription:
@@ -35,8 +18,14 @@ def parse_job_description(text: str) -> JobDescription:
     Raises:
         ValueError: If text is too short or parsing fails
     """
-    if not text or len(text.strip()) < 10:
-        raise ValueError("Job description must be at least 10 characters")
+    # Sanitize input
+    if not text:
+        raise ValueError("Job description cannot be empty")
+
+    text = str(text).strip()
+
+    if len(text) < 10:
+        raise ValueError(f"Job description too short ({len(text)} chars, minimum 10 required)")
 
     client = build_client()
 
@@ -66,7 +55,33 @@ Job Description:
 
     # Parse JSON response and return JobDescription object
     try:
-        data = json.loads(response)
-        return JobDescription(**data)
-    except json.JSONDecodeError:
+        clean_response = response.strip()
+
+        # Find the start of JSON object
+        json_start = clean_response.find('{')
+        if json_start < 0:
+            raise ValueError("No JSON object found in response")
+
+        # Count braces to find the end
+        brace_count = 0
+        json_end = -1
+        for i in range(json_start, len(clean_response)):
+            if clean_response[i] == '{':
+                brace_count += 1
+            elif clean_response[i] == '}':
+                brace_count -= 1
+                if brace_count == 0:
+                    json_end = i + 1
+                    break
+
+        if json_end <= json_start:
+            raise ValueError("Could not find complete JSON object")
+
+        json_str = clean_response[json_start:json_end]
+        data = json.loads(json_str)
+        try:
+            return JobDescription(**data)
+        except Exception as e:
+            raise ValueError(f"Failed to create JobDescription from parsed data: {e}. Data was: {data}")
+    except json.JSONDecodeError as e:
         raise ValueError(f"Failed to parse job description response: {response}")

@@ -6,6 +6,13 @@
       "runtimeExecutable": ".venv/Scripts/python.exe",
       "runtimeArgs": ["-m", "streamlit", "run", "app.py", "--server.headless=true"],
       "port": 8501
+    },
+    {
+      "name": "fastapi",
+      "runtimeExecutable": ".venv/Scripts/python.exe",
+      "runtimeArgs": ["-m", "uvicorn", "bedrock_poc.api.main:app", "--host", "0.0.0.0"],
+      "port": 8000,
+      "autoPort": true
     }
   ]
 }

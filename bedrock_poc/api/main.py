@@ -1,5 +1,8 @@
 """Main FastAPI application for Bedrock POC."""
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from bedrock_poc.api import auth, jobs, candidates, matches, audit

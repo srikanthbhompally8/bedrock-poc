@@ -69,8 +69,8 @@ def build_client(region: str | None = None):
     # instead of hanging a demo. "standard" mode adds retries for throttling.
     boto_config = Config(
         region_name=resolved_region,
-        retries={"max_attempts": 3, "mode": "standard"},
-        read_timeout=60,
+        retries={"max_attempts": 5, "mode": "standard"},
+        read_timeout=120,
         connect_timeout=10,
     )
 

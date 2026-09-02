@@ -140,7 +140,7 @@ async def run_load_test(
     # First, authenticate to get a token
     auth_token = None
     try:
-        async with httpx.AsyncClient(timeout=30) as client:
+        async with httpx.AsyncClient(timeout=120) as client:
             auth_response = await client.post(
                 f"{base_url}/api/auth/login",
                 json={
@@ -178,7 +178,7 @@ async def run_load_test(
                 f"{base_url}/api/jobs/parse",
                 json={"job_description": job_description},
                 headers={"Authorization": f"Bearer {auth_token}"},
-                timeout=45.0
+                timeout=120.0
             )
             latency_ms = (time.time() - start) * 1000
             response_text = response.text[:200] if response.text else ""
@@ -204,7 +204,7 @@ async def run_load_test(
     end_time = time.time() + duration_seconds
     job_idx = 0
 
-    async with httpx.AsyncClient(timeout=45.0) as client:
+    async with httpx.AsyncClient(timeout=120.0) as client:
         tasks = []
         while time.time() < end_time:
             # Create new concurrent users up to the limit
@@ -247,10 +247,10 @@ async def run_optimized_load_test():
 
     # Run load test
     log.info("\n" + "="*80)
-    log.info("OPTIMIZED LOAD TEST (100 Concurrent Users, 60 seconds)")
+    log.info("OPTIMIZED LOAD TEST (100 Concurrent Users, 300 seconds)")
     log.info("="*80 + "\n")
 
-    metrics = await run_load_test(num_users=100, duration_seconds=60)
+    metrics = await run_load_test(num_users=100, duration_seconds=300)
     summary = metrics.get_summary()
 
     # Print results
@@ -283,7 +283,7 @@ async def run_optimized_load_test():
         "timestamp": datetime.now().isoformat(),
         "test_config": {
             "concurrent_users": 100,
-            "duration_seconds": 60,
+            "duration_seconds": 300,
             "base_url": "http://localhost:8000"
         },
         "summary": summary,

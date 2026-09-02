@@ -125,7 +125,7 @@ Job Description:
     # Try parsing with retries
     for attempt in range(retry_config.max_retries + 1):
         try:
-            response = converse(client, messages, max_tokens=1024, temperature=0.1)
+            response = converse(client, messages, max_tokens=1024, temperature=0.5)
 
             # Parse JSON response
             clean_response = response.strip()

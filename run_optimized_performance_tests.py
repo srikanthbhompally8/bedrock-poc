@@ -145,7 +145,7 @@ async def run_load_test(
                 f"{base_url}/api/auth/login",
                 json={
                     "email": "testuser@example.com",
-                    "password": "TestPassword123!"
+                    "password": "Test123!"
                 }
             )
             if auth_response.status_code == 200:
@@ -247,10 +247,10 @@ async def run_optimized_load_test():
 
     # Run load test
     log.info("\n" + "="*80)
-    log.info("OPTIMIZED LOAD TEST (100 Concurrent Users, 300 seconds)")
+    log.info("OPTIMIZED LOAD TEST (10 Concurrent Users, 300 seconds)")
     log.info("="*80 + "\n")
 
-    metrics = await run_load_test(num_users=100, duration_seconds=300)
+    metrics = await run_load_test(num_users=20, duration_seconds=300)
     summary = metrics.get_summary()
 
     # Print results

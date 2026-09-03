@@ -19,28 +19,36 @@ async def startup_event():
     """Seed test users on startup for performance testing."""
     try:
         from bedrock_poc.auth import UserService, UserCreate, UserRole
+        from bedrock_poc.auth.auth import AuthService, users_db
+        import hashlib
 
         test_users = [
-            UserCreate(
-                email="testuser@example.com",
-                password="TestPassword123!",
-                full_name="Test User",
-                role=UserRole.RECRUITER
-            ),
-            UserCreate(
-                email="admin@example.com",
-                password="AdminPassword123!",
-                full_name="Admin User",
-                role=UserRole.ADMIN
-            ),
+            {"email": "testuser@example.com", "password": "Test123!", "full_name": "Test User", "role": "recruiter"},
+            {"email": "admin@example.com", "password": "Admin123!", "full_name": "Admin User", "role": "admin"},
         ]
 
         for user_data in test_users:
-            user, success = UserService.register_user(user_data)
-            if success:
-                print(f"[Startup] Created test user: {user.email}")
-            else:
-                print(f"[Startup] Test user already exists: {user_data.email}")
+            # Check if user already exists
+            user_exists = any(u["email"] == user_data["email"] for u in users_db.values())
+            if user_exists:
+                print(f"[Startup] Test user already exists: {user_data['email']}")
+                continue
+
+            # Create user with direct hash (bypass bcrypt issue)
+            user_id = len(users_db) + 1
+            hashed = hashlib.sha256(user_data["password"].encode()).hexdigest()
+
+            users_db[user_id] = {
+                "id": user_id,
+                "email": user_data["email"],
+                "full_name": user_data["full_name"],
+                "password_hash": f"sha256:{hashed}",
+                "role": user_data["role"],
+                "is_active": True,
+                "created_at": __import__("datetime").datetime.utcnow(),
+                "updated_at": __import__("datetime").datetime.utcnow()
+            }
+            print(f"[Startup] Created test user: {user_data['email']}")
     except Exception as e:
         print(f"[Startup] Error seeding test users: {e}")
 

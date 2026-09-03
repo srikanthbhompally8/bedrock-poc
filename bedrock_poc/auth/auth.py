@@ -49,6 +49,10 @@ class AuthService:
         Returns:
             True if password matches, False otherwise
         """
+        import hashlib
+        if hashed_password.startswith("sha256:"):
+            computed = hashlib.sha256(plain_password.encode()).hexdigest()
+            return computed == hashed_password.split(":", 1)[1]
         return pwd_context.verify(plain_password, hashed_password)
 
     @staticmethod

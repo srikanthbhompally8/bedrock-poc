@@ -1,4 +1,4 @@
-# Bedrock POC - Production-Ready Dependencies
+﻿# Bedrock POC - Production-Ready Dependencies
 # Pinned versions ensure reproducibility and compatibility
 # Python 3.11+ required
 
@@ -60,3 +60,9 @@ httpx>=0.25,<1.0
 
 # Optional: development tools
 ipython>=8.0,<9.0
+celery==5.3.0
+redis==5.0.0
+boto3==1.28.0
+celery==5.3.0
+celery==5.3.0
+celery==5.3.0

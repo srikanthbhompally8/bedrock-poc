@@ -141,7 +141,7 @@ async def parse_job_async(
 # STATUS ENDPOINT - Check job status and get results
 # ============================================================================
 
-@router.get("/jobs/{job_id}/status")
+@router.get("/{job_id}/status")
 async def get_job_status(
     job_id: str,
     current_user: User = Depends(get_current_user)

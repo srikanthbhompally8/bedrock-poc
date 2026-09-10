@@ -74,6 +74,7 @@ def parse_job_description_async(self, job_id: str, job_description: str, user_id
         logger.info(f"Processing job {job_id}: {job_description[:100]}...")
 
         # Call Bedrock API
+        logger.info(f"Calling Bedrock with client: {bedrock_client}")
         result_text = converse(
             client=bedrock_client,
             messages=[
@@ -87,9 +88,16 @@ def parse_job_description_async(self, job_id: str, job_description: str, user_id
             temperature=0.3
         )
 
-        # Parse JSON response
+        # Parse JSON response (strip markdown code fences if present)
+        logger.info(f"Bedrock result_text type: {type(result_text)}, content: {repr(result_text[:100] if result_text else 'empty')}")
+        clean_text = result_text
+        if clean_text.startswith("```"):
+            # Strip markdown code fence
+            clean_text = clean_text.lstrip("```json").lstrip("```").strip()
+            if clean_text.endswith("```"):
+                clean_text = clean_text[:-3].strip()
         try:
-            parsed_data = json.loads(result_text)
+            parsed_data = json.loads(clean_text)
             # Validate with Pydantic model
             job_data = JobDescription(**parsed_data)
             result = job_data.model_dump()

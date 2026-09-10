@@ -1,0 +1,830 @@
+{
+  "timestamp": "2026-09-01T19:08:07.417485",
+  "test_config": {
+    "concurrent_users": 100,
+    "duration_seconds": 60,
+    "base_url": "http://localhost:8000"
+  },
+  "summary": {
+    "total_requests": 214,
+    "successful_requests": 28,
+    "failed_requests": 186,
+    "success_rate_percent": 13.084112149532709,
+    "throughput_rps": 3.465733476096045,
+    "response_times": {
+      "min_ms": 1875.528335571289,
+      "max_ms": 48417.930603027344,
+      "avg_ms": 26971.40449229802,
+      "p50_ms": 21878.971576690674,
+      "p95_ms": 45288.42759132385,
+      "p99_ms": 45296.74792289734
+    },
+    "failure_breakdown": {
+      "success": 28,
+      "validation_error": 4,
+      "server_error": 182
+    }
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 1875.528335571289,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:08.493635"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 3372.2305297851562,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:10.041457"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 400,
+      "latency_ms": 6690.276861190796,
+      "category": "validation_error",
+      "timestamp": "2026-09-01T19:07:13.418341"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 6621.416807174683,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:13.418341"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 8168.034315109253,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:15.012794"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 10061.10429763794,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:16.946490"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 12439.92018699646,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:19.388675"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 400,
+      "latency_ms": 15680.168867111206,
+      "category": "validation_error",
+      "timestamp": "2026-09-01T19:07:22.676649"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 15633.647203445435,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:22.678664"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 19635.35737991333,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:26.738729"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 19603.52873802185,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:26.748806"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 21878.971576690674,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:29.093067"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 400,
+      "latency_ms": 24596.632957458496,
+      "category": "validation_error",
+      "timestamp": "2026-09-01T19:07:31.859603"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 26648.664474487305,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:33.959439"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 30718.43934059143,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:38.085249"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 30676.769256591797,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:38.093389"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 32510.038137435913,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:39.989041"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 400,
+      "latency_ms": 35267.14754104614,
+      "category": "validation_error",
+      "timestamp": "2026-09-01T19:07:42.786953"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 39111.97543144226,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:46.680595"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 39053.62844467163,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:46.684855"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 1933.4826469421387,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:48.618337"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 41092.69309043884,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:48.772139"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 3618.1225776672363,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:50.357192"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 42883.090019226074,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:50.635857"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 3812.9048347473145,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:52.431242"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45280.9362411499,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.065872"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45267.136335372925,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.165404"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45271.20137214661,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.219246"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45289.35980796814,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.305608"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45278.93781661987,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.333544"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45277.92286872864,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.375054"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45296.74792289734,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.459404"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45281.34036064148,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.514691"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45272.77588844299,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.556268"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45272.45569229126,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.591522"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45294.19803619385,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.657371"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45264.98222351074,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.701422"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45280.45749664307,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.762272"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45275.19083023071,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.820265"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45260.05268096924,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.861086"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45278.05304527283,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:53.942825"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45282.48929977417,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.010956"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 5288.184404373169,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:54.060324"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45277.47416496277,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.077546"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45288.42759132385,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.136415"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45272.76110649109,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.189293"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45268.92614364624,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.233494"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45284.619092941284,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.314665"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45256.90746307373,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.334730"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45285.526752471924,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.404228"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45261.45887374878,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.444128"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45290.350675582886,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.520696"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45255.31244277954,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.549578"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45282.55033493042,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.632522"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45277.25148200989,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.690723"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45255.07426261902,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.723267"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45287.12558746338,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.791080"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45281.06093406677,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.839425"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45278.93924713135,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.897296"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45278.53798866272,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.959988"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45266.969442367554,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:54.995969"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45252.378940582275,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.037420"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45263.120889663696,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.111645"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45284.18850898743,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.197047"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45262.89749145508,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.231915"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45269.48618888855,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.301630"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45287.065744400024,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.367008"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45272.54843711853,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.416397"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45272.93872833252,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.456476"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45271.29507064819,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.502756"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45267.92073249817,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.555009"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 4962.624549865723,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:55.598482"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45275.33531188965,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.623833"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45258.589029312134,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.677147"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45281.59308433533,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.764643"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45290.80772399902,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.821360"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45264.66727256775,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.849686"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45275.90084075928,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.924816"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45285.0182056427,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:55.998158"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45262.07685470581,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.022287"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45289.94703292847,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.091799"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45274.085521698,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.122612"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45289.57962989807,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.201120"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45267.65823364258,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.236209"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 200,
+      "latency_ms": 48417.930603027344,
+      "category": "success",
+      "timestamp": "2026-09-01T19:07:56.253187"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45270.02167701721,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.278045"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45249.88794326782,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.329398"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45262.55822181702,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.406207"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45290.03286361694,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.465915"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45266.108989715576,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.499183"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45275.05803108215,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.548761"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45275.33531188965,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.605850"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45260.13731956482,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.655136"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45270.4963684082,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.713282"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45247.711420059204,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.738121"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45284.971475601196,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.821061"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45261.00516319275,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.842879"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45279.168128967285,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.925716"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45263.543367385864,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:56.973501"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/api/jobs/parse",
+      "status_code": 500,
+      "latency_ms": 45267.494440078735,
+      "category": "server_error",
+      "timestamp": "2026-09-01T19:07:57.039155"
+    }
+  ]
+}

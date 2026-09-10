@@ -5,15 +5,44 @@ import json
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from bedrock_poc.models import JobDescription, Skill, ParseJobRequest, ParseJobResponse
+from bedrock_poc.auth import UserService, UserCreate, UserRole, AuthService
 
 
-# Mock app for testing
+# Full app with auth for testing
 from fastapi import FastAPI
-from bedrock_poc.api.jobs import router
+from bedrock_poc.api.main import app
 
-app = FastAPI()
-app.include_router(router)
 client = TestClient(app)
+
+
+def setup_auth():
+    """Setup authentication for test requests."""
+    # Create a recruiter user for tests
+    user_create = UserCreate(
+        email="recruiter_test@example.com",
+        password="testpass123",
+        full_name="Test Recruiter",
+        role=UserRole.RECRUITER
+    )
+
+    # Register user
+    try:
+        UserService.register_user(user_create)
+    except:
+        pass  # User might already exist
+
+    # Login and get token
+    result = UserService.login_user(user_create.email, user_create.password)
+    if result:
+        user, token = result
+        return token.access_token
+    return None
+
+
+def get_auth_header():
+    """Get authorization header with valid token."""
+    token = setup_auth()
+    return {"Authorization": f"Bearer {token}"} if token else {}
 
 
 def test_parse_job_endpoint_success():
@@ -35,7 +64,8 @@ def test_parse_job_endpoint_success():
     with patch('bedrock_poc.api.jobs.parse_job_description', return_value=JobDescription(**mock_response)):
         response = client.post(
             "/api/jobs/parse",
-            json={"job_description": "Senior Python Engineer needed at TechCorp..."}
+            json={"job_description": "Senior Python Engineer needed at TechCorp..."},
+            headers=get_auth_header()
         )
 
         assert response.status_code == 200
@@ -50,7 +80,8 @@ def test_parse_job_endpoint_empty_description():
     """Test API endpoint with empty job description."""
     response = client.post(
         "/api/jobs/parse",
-        json={"job_description": ""}
+        json={"job_description": ""},
+        headers=get_auth_header()
     )
 
     assert response.status_code == 422  # Validation error
@@ -60,7 +91,8 @@ def test_parse_job_endpoint_short_description():
     """Test API endpoint with too-short description."""
     response = client.post(
         "/api/jobs/parse",
-        json={"job_description": "short"}
+        json={"job_description": "short"},
+        headers=get_auth_header()
     )
 
     assert response.status_code == 422  # Validation error
@@ -71,7 +103,8 @@ def test_parse_job_endpoint_parsing_error():
     with patch('bedrock_poc.api.jobs.parse_job_description', side_effect=ValueError("Parsing failed")):
         response = client.post(
             "/api/jobs/parse",
-            json={"job_description": "Senior Python Engineer needed..."}
+            json={"job_description": "Senior Python Engineer needed..."},
+            headers=get_auth_header()
         )
 
         assert response.status_code == 400

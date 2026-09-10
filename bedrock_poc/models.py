@@ -69,10 +69,10 @@ class JobDescription(BaseModel):
 
     job_title: str = Field(..., description="Job title")
     company: Optional[str] = Field(None, description="Company name")
-    years_required: int = Field(..., ge=0, description="Years of experience required")
+    years_required: Optional[int] = Field(None, description="Years of experience required", ge=0)
     core_skills: List[Skill] = Field(default_factory=list, description="Required core skills")
     nice_to_have: List[str] = Field(default_factory=list, description="Nice-to-have skills")
-    education: str = Field(..., description="Required education level")
+    education: Optional[str] = Field(None, description="Required education level")
     salary_min: Optional[int] = Field(None, description="Minimum salary")
     salary_max: Optional[int] = Field(None, description="Maximum salary")
 

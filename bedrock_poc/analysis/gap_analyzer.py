@@ -2,8 +2,7 @@
 
 from pydantic import BaseModel
 from typing import List, Optional
-from bedrock_poc.models import ResumeParsed
-from bedrock_poc.parsing.job_parser import JobDescription, Skill
+from bedrock_poc.models import ResumeParsed, JobDescription, Skill
 
 
 class SkillGap(BaseModel):

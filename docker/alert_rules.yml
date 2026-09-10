@@ -1,0 +1,293 @@
+# Prometheus Alert Rules for Bedrock POC
+# Alerts for critical application and infrastructure failures
+
+groups:
+  - name: bedrock_application
+    interval: 30s
+    rules:
+      # ================================================================
+      # API & Application Alerts (Critical)
+      # ================================================================
+
+      - alert: HighAPIErrorRate
+        expr: |
+          (rate(bedrock_api_errors_total[5m]) /
+           rate(bedrock_api_requests_total[5m])) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+          component: api
+        annotations:
+          summary: "High API error rate (>5%)"
+          description: "Error rate is {{ $value | humanizePercentage }} in the last 5 minutes"
+          runbook: "docs/RUNBOOKS.md#high-api-error-rate"
+
+      - alert: HighAPILatency
+        expr: |
+          histogram_quantile(0.95,
+            bedrock_api_request_duration_seconds) > 2
+        for: 10m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High API latency (p95 > 2s)"
+          description: "P95 latency is {{ $value }}s"
+          runbook: "docs/RUNBOOKS.md#high-api-latency"
+
+      - alert: APIResponseTimeExcessive
+        expr: |
+          histogram_quantile(0.99,
+            bedrock_api_request_duration_seconds) > 5
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "Excessive API response time (p99 > 5s)"
+          description: "P99 latency is {{ $value }}s"
+
+      # ================================================================
+      # Database Alerts (Critical)
+      # ================================================================
+
+      - alert: DatabaseConnectionLost
+        expr: bedrock_database_connections_active == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: database
+        annotations:
+          summary: "Database connection lost"
+          description: "No active database connections for 1 minute"
+          runbook: "docs/RUNBOOKS.md#database-unavailable"
+
+      - alert: DatabaseConnectionPoolNearLimit
+        expr: |
+          (bedrock_database_connections_active / 50) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "Database connection pool near limit"
+          description: "Using {{ $value | humanizePercentage }} of available connections"
+          runbook: "docs/RUNBOOKS.md#connection-pool-exhaustion"
+
+      - alert: SlowDatabaseQueries
+        expr: |
+          histogram_quantile(0.95,
+            bedrock_database_query_duration_seconds) > 1
+        for: 5m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "Slow database queries (p95 > 1s)"
+          description: "P95 query duration is {{ $value }}s"
+          runbook: "docs/RUNBOOKS.md#slow-database-queries"
+
+      # ================================================================
+      # AWS Bedrock API Alerts
+      # ================================================================
+
+      - alert: BedrockAPIErrors
+        expr: rate(bedrock_bedrock_api_errors_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          component: bedrock
+        annotations:
+          summary: "AWS Bedrock API errors detected"
+          description: "Error rate is {{ $value }} errors/sec"
+          runbook: "docs/RUNBOOKS.md#bedrock-api-errors"
+
+      - alert: BedrockAPILatencyHigh
+        expr: |
+          histogram_quantile(0.95,
+            bedrock_bedrock_api_duration_seconds) > 5
+        for: 5m
+        labels:
+          severity: warning
+          component: bedrock
+        annotations:
+          summary: "Bedrock API latency high (p95 > 5s)"
+          description: "P95 latency is {{ $value }}s"
+          runbook: "docs/RUNBOOKS.md#bedrock-api-slow"
+
+      - alert: HighTokenUsage
+        expr: rate(bedrock_tokens_used_total[1h]) > 1000000
+        for: 10m
+        labels:
+          severity: warning
+          component: bedrock
+        annotations:
+          summary: "High token consumption detected"
+          description: "Token usage rate is {{ $value }} tokens/hour"
+          runbook: "docs/RUNBOOKS.md#high-token-usage"
+
+      # ================================================================
+      # Authentication & Security Alerts
+      # ================================================================
+
+      - alert: HighAuthenticationFailures
+        expr: rate(bedrock_auth_failures_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          component: authentication
+        annotations:
+          summary: "High authentication failure rate"
+          description: "Failure rate is {{ $value }} failures/sec"
+          runbook: "docs/RUNBOOKS.md#auth-failures"
+
+      - alert: SuspiciousAuthActivity
+        expr: rate(bedrock_auth_failures_total[1m]) > 1
+        for: 2m
+        labels:
+          severity: critical
+          component: authentication
+        annotations:
+          summary: "Suspicious authentication activity detected"
+          description: "Multiple failed authentication attempts"
+          runbook: "docs/RUNBOOKS.md#suspicious-activity"
+
+      # ================================================================
+      # Cache & Performance Alerts
+      # ================================================================
+
+      - alert: LowCacheHitRate
+        expr: |
+          (rate(bedrock_cache_hits_total[5m]) /
+           (rate(bedrock_cache_hits_total[5m]) +
+            rate(bedrock_cache_misses_total[5m]))) < 0.5
+        for: 10m
+        labels:
+          severity: warning
+          component: cache
+        annotations:
+          summary: "Low cache hit rate (<50%)"
+          description: "Cache hit rate is {{ $value | humanizePercentage }}"
+          runbook: "docs/RUNBOOKS.md#low-cache-performance"
+
+      # ================================================================
+      # Business Logic Alerts
+      # ================================================================
+
+      - alert: JobParsingFailures
+        expr: |
+          (rate(bedrock_job_parsing_total{status="failed"}[5m]) /
+           rate(bedrock_job_parsing_total[5m])) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          component: business_logic
+        annotations:
+          summary: "High job parsing failure rate (>10%)"
+          description: "Failure rate is {{ $value | humanizePercentage }}"
+          runbook: "docs/RUNBOOKS.md#job-parsing-failures"
+
+      - alert: LowMatchingSuccessRate
+        expr: |
+          (rate(bedrock_matching_total{result="success"}[5m]) /
+           rate(bedrock_matching_total[5m])) < 0.9
+        for: 10m
+        labels:
+          severity: warning
+          component: business_logic
+        annotations:
+          summary: "Low matching success rate (<90%)"
+          description: "Success rate is {{ $value | humanizePercentage }}"
+
+      - alert: SlowRankingOperations
+        expr: |
+          histogram_quantile(0.95,
+            bedrock_ranking_duration_seconds) > 10
+        for: 5m
+        labels:
+          severity: warning
+          component: business_logic
+        annotations:
+          summary: "Slow ranking operations (p95 > 10s)"
+          description: "P95 duration is {{ $value }}s"
+
+      # ================================================================
+      # System & Infrastructure Alerts
+      # ================================================================
+
+      - alert: HighMemoryUsage
+        expr: process_resident_memory_bytes > 900000000
+        for: 5m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "High memory usage (>900MB)"
+          description: "Current memory usage is {{ $value | humanize }}B"
+          runbook: "docs/RUNBOOKS.md#high-memory-usage"
+
+      - alert: ContainerRestarting
+        expr: rate(container_last_seen{status="restart"}[5m]) > 0
+        for: 2m
+        labels:
+          severity: critical
+          component: system
+        annotations:
+          summary: "Container restarting frequently"
+          description: "Container restart rate > 0"
+          runbook: "docs/RUNBOOKS.md#container-restart-loop"
+
+  - name: bedrock_infrastructure
+    interval: 30s
+    rules:
+      # ================================================================
+      # Redis Alerts (if Redis is enabled)
+      # ================================================================
+
+      - alert: RedisConnectionLost
+        expr: redis_connected == 0
+        for: 1m
+        labels:
+          severity: warning
+          component: redis
+        annotations:
+          summary: "Redis connection lost"
+          description: "No connection to Redis for 1 minute"
+          runbook: "docs/RUNBOOKS.md#redis-unavailable"
+
+      - alert: RedisHighMemoryUsage
+        expr: redis_memory_used_bytes > 500000000
+        for: 5m
+        labels:
+          severity: warning
+          component: redis
+        annotations:
+          summary: "High Redis memory usage (>500MB)"
+          description: "Current usage is {{ $value | humanize }}B"
+
+      # ================================================================
+      # RDS Database Alerts (CloudWatch)
+      # ================================================================
+
+      - alert: RDSCPUUtilizationHigh
+        expr: aws_rds_cpu_utilization > 80
+        for: 10m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "RDS CPU utilization high (>80%)"
+          description: "Current utilization is {{ $value }}%"
+
+      - alert: RDSStorageNearLimit
+        expr: |
+          (aws_rds_allocated_storage - aws_rds_free_storage_space) /
+          aws_rds_allocated_storage > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "RDS storage near limit (>85%)"
+          description: "Usage is {{ $value | humanizePercentage }}"
+          runbook: "docs/RUNBOOKS.md#rds-storage-full"

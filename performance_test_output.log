@@ -1,0 +1,83 @@
+2026-08-25 07:11:09,003 - INFO - Checking prerequisites...
+2026-08-25 07:11:09,527 - INFO - Database: OK
+2026-08-25 07:11:12,844 - INFO - HTTP Request: GET http://localhost:8000/health "HTTP/1.1 200 OK"
+2026-08-25 07:11:12,844 - INFO - API server: OK
+2026-08-25 07:11:12,844 - INFO - ================================================================================
+2026-08-25 07:11:12,844 - INFO - BASELINE PERFORMANCE TEST (10 Concurrent Users)
+2026-08-25 07:11:12,844 - INFO - ================================================================================
+2026-08-25 07:11:13,306 - ERROR - Baseline test failed: no running event loop
+C:\Users\bhomp\Downloads\bedrock-poc\bedrock-poc\run_complete_performance_tests.py:139: RuntimeWarning: coroutine 'PerformanceTestExecutor._collect_metrics_background' was never awaited
+  return False
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+2026-08-25 07:11:13,355 - INFO - ================================================================================
+2026-08-25 07:11:13,355 - INFO - LOAD PERFORMANCE TEST (100 Concurrent Users)
+2026-08-25 07:11:13,355 - INFO - ================================================================================
+2026-08-25 07:11:14,555 - INFO - HTTP Request: POST http://localhost:8000/api/auth/login "HTTP/1.1 200 OK"
+2026-08-25 07:11:52,869 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:11:54,180 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:11:55,320 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:11:56,538 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:11:57,868 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:11:59,158 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:00,403 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:01,770 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:03,002 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:04,219 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:05,572 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:06,796 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:08,019 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:09,236 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:10,566 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:11,790 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:13,035 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:14,370 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:15,803 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:16,970 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:18,352 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 500 Internal Server Error"
+2026-08-25 07:12:45,008 - INFO - ================================================================================
+2026-08-25 07:12:45,008 - INFO - STRESS TEST (Gradual Load Increase)
+2026-08-25 07:12:45,008 - INFO - ================================================================================
+2026-08-25 07:13:16,303 - ERROR - Stress test failed: Failed to login test user
+2026-08-25 07:13:16,303 - ERROR - Testing failed
+
+********************************************************************************
+*               BEDROCK POC - COMPLETE PERFORMANCE TESTING SUITE               *
+********************************************************************************
+
+
+================================================================================
+LOAD TEST (100 Concurrent Users)
+================================================================================
+Running load test with 100 concurrent users for 60s
+
+================================================================================
+SCENARIO: Load Test (100 Users)
+================================================================================
+Concurrent Users:        100
+Duration:                90s
+Total Requests:          119
+Successful Requests:     1
+Failed Requests:         118
+Error Rate:              99.16%
+Throughput:              1.32 req/sec
+
+Response Times (ms):
+  Min:                   946.45ms
+  Max:                   946.45ms
+  Average:               946.45ms
+  P50 (Median):          946.45ms
+  P95:                   946.45ms
+  P99:                   946.45ms
+
+Per-Endpoint Metrics:
+--------------------------------------------------------------------------------
+Endpoint                       Method Requests   Avg (ms)     Error %   
+--------------------------------------------------------------------------------
+/api/auth/login                POST   1          946.45       0.00      
+/api/jobs/parse                POST   118        0.00         100.00    
+================================================================================
+
+
+================================================================================
+STRESS TEST (Gradual Load Increase)
+================================================================================

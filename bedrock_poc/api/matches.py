@@ -1,10 +1,11 @@
 """Match Results API endpoints."""
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List
 from bedrock_poc.matching.matcher import CandidateJobMatch
 from bedrock_poc.ranking.ranker import rank_matches, RankedMatch
+from bedrock_poc.auth import User, require_any_permission, Permission
 
 router = APIRouter(prefix="/api/matches", tags=["matches"])
 
@@ -25,11 +26,15 @@ class MatchResponse(BaseModel):
 
 
 @router.post("/", response_model=MatchResponse)
-def create_match(request: CreateMatchRequest):
-    """Create a match between candidate and job.
+def create_match(
+    request: CreateMatchRequest,
+    current_user: User = Depends(require_any_permission(Permission.CREATE_MATCH, Permission.MANAGE_MATCHES))
+):
+    """Create a match between candidate and job (Recruiter+ only).
 
     Args:
         request: CreateMatchRequest with candidate_id and job_id
+        current_user: Current authenticated user (must be recruiter or admin)
 
     Returns:
         Created match with ID
@@ -62,11 +67,15 @@ def create_match(request: CreateMatchRequest):
 
 
 @router.get("/{match_id}", response_model=dict)
-def get_match(match_id: int):
-    """Retrieve match details.
+def get_match(
+    match_id: int,
+    current_user: User = Depends(require_any_permission(Permission.READ_MATCH, Permission.MANAGE_MATCHES))
+):
+    """Retrieve match details (Recruiter+ only).
 
     Args:
         match_id: ID of the match
+        current_user: Current authenticated user (must be recruiter or admin)
 
     Returns:
         Match details
@@ -83,11 +92,15 @@ def get_match(match_id: int):
 
 
 @router.delete("/{match_id}", response_model=dict)
-def delete_match(match_id: int):
-    """Delete a match.
+def delete_match(
+    match_id: int,
+    current_user: User = Depends(require_any_permission(Permission.DELETE_MATCH, Permission.MANAGE_MATCHES))
+):
+    """Delete a match (Recruiter+ only).
 
     Args:
         match_id: ID of the match to delete
+        current_user: Current authenticated user (must be recruiter or admin)
 
     Returns:
         Deletion confirmation
@@ -104,12 +117,17 @@ def delete_match(match_id: int):
 
 
 @router.get("/", response_model=dict)
-def list_matches(job_id: Optional[int] = None, limit: int = 20):
-    """List all matches with optional filtering.
+def list_matches(
+    job_id: Optional[int] = None,
+    limit: int = 20,
+    current_user: User = Depends(require_any_permission(Permission.READ_MATCH, Permission.MANAGE_MATCHES))
+):
+    """List all matches with optional filtering (Recruiter+ only).
 
     Args:
         job_id: Optional job ID to filter by
         limit: Maximum matches to return
+        current_user: Current authenticated user (must be recruiter or admin)
 
     Returns:
         List of matches
@@ -131,11 +149,15 @@ def list_matches(job_id: Optional[int] = None, limit: int = 20):
 
 
 @router.post("/{job_id}/rank", response_model=dict)
-def rank_matches_for_job(job_id: int):
-    """Get ranked list of matches for a job.
+def rank_matches_for_job(
+    job_id: int,
+    current_user: User = Depends(require_any_permission(Permission.READ_MATCH, Permission.MANAGE_MATCHES))
+):
+    """Get ranked list of matches for a job (Recruiter+ only).
 
     Args:
         job_id: ID of the job
+        current_user: Current authenticated user (must be recruiter or admin)
 
     Returns:
         Ranked matches

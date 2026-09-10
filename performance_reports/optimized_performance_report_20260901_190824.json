@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-09-01T19:08:24.625968",
+  "test_config": {
+    "concurrent_users": 100,
+    "duration_seconds": 60,
+    "base_url": "http://localhost:8000"
+  },
+  "summary": {},
+  "requests": []
+}

@@ -120,3 +120,24 @@ class JobListing(Base):
 
     def __repr__(self) -> str:
         return f"<JobListing(title={self.job_title}, company={self.company})>"
+
+
+class JobQueue(Base):
+    """Tracks async job processing status and results for Bedrock parsing."""
+
+    __tablename__ = "job_queue"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False, index=True)
+    job_id = Column(String(36), unique=True, nullable=False, index=True)
+    job_description = Column(Text, nullable=False)
+    status = Column(String(20), default="pending", index=True)
+    result = Column(JSON, nullable=True)
+    retry_count = Column(Integer, default=0)
+    error_message = Column(String(500), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    completed_at = Column(DateTime, nullable=True)
+    metadata_json = Column(JSON, nullable=True)
+
+    def __repr__(self) -> str:
+        return f"<JobQueue(job_id={self.job_id}, status={self.status})>"

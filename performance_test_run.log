@@ -1,0 +1,274 @@
+2026-09-01 19:12:10,434 - INFO - Prerequisite checks...
+2026-09-01 19:12:11,008 - INFO - HTTP Request: GET http://localhost:8000/health "HTTP/1.1 200 OK"
+2026-09-01 19:12:11,024 - INFO - \u2713 API server: OK
+2026-09-01 19:12:11,024 - INFO - 
+================================================================================
+2026-09-01 19:12:11,024 - INFO - OPTIMIZED LOAD TEST (100 Concurrent Users, 60 seconds)
+2026-09-01 19:12:11,024 - INFO - ================================================================================
+
+2026-09-01 19:12:11,701 - INFO - HTTP Request: POST http://localhost:8000/api/auth/login "HTTP/1.1 200 OK"
+2026-09-01 19:12:11,711 - INFO - Authentication successful, token: eyJhbGciOiJIUzI1NiIs...
+2026-09-01 19:12:11,711 - INFO - Starting load test: 100 concurrent users, 60s duration
+2026-09-01 19:12:11,711 - INFO - ================================================================================
+2026-09-01 19:12:13,800 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:13,814 - INFO - \u2713 Success (200): 1926ms
+2026-09-01 19:12:15,418 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:15,421 - INFO - \u2713 Success (200): 3471ms
+2026-09-01 19:12:17,702 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:20,204 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:20,204 - INFO - \u2713 Success (200): 8190ms
+2026-09-01 19:12:20,209 - INFO - \u2713 Success (200): 8148ms
+2026-09-01 19:12:21,605 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:21,605 - INFO - \u2713 Success (200): 9479ms
+2026-09-01 19:12:23,152 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:23,152 - INFO - \u2713 Success (200): 10979ms
+2026-09-01 19:12:24,776 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:24,785 - INFO - \u2713 Success (200): 12548ms
+2026-09-01 19:12:26,598 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:28,656 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:28,656 - INFO - \u2713 Success (200): 16373ms
+2026-09-01 19:12:28,656 - INFO - \u2713 Success (200): 16340ms
+2026-09-01 19:12:30,035 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:32,844 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:32,848 - INFO - \u2713 Success (200): 20474ms
+2026-09-01 19:12:32,852 - INFO - \u2713 Success (200): 20419ms
+2026-09-01 19:12:34,311 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:35,799 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:35,817 - INFO - \u2713 Success (200): 23329ms
+2026-09-01 19:12:35,825 - INFO - \u2713 Success (200): 23287ms
+2026-09-01 19:12:37,487 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:37,494 - INFO - \u2713 Success (200): 24910ms
+2026-09-01 19:12:40,245 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:40,249 - INFO - \u2713 Success (200): 27617ms
+2026-09-01 19:12:41,836 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:43,465 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:43,481 - INFO - \u2713 Success (200): 30784ms
+2026-09-01 19:12:43,483 - INFO - \u2713 Success (200): 30724ms
+2026-09-01 19:12:45,255 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:45,261 - INFO - \u2713 Success (200): 32437ms
+2026-09-01 19:12:47,623 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:47,629 - INFO - \u2713 Success (200): 34741ms
+2026-09-01 19:12:49,107 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:50,520 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:50,525 - INFO - \u2713 Success (200): 37573ms
+2026-09-01 19:12:50,534 - INFO - \u2713 Success (200): 37518ms
+2026-09-01 19:12:52,929 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:52,947 - INFO - \u2713 Success (200): 39883ms
+2026-09-01 19:12:54,342 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:54,342 - INFO - \u2713 Success (200): 41230ms
+2026-09-01 19:12:55,778 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:55,785 - INFO - \u2713 Success (200): 42641ms
+2026-09-01 19:12:57,580 - INFO - HTTP Request: POST http://localhost:8000/api/jobs/parse "HTTP/1.1 200 OK"
+2026-09-01 19:12:58,527 - ERROR - \u2717 Error: 
+2026-09-01 19:12:58,580 - ERROR - \u2717 Error: 
+2026-09-01 19:12:58,650 - ERROR - \u2717 Error: 
+2026-09-01 19:12:58,711 - ERROR - \u2717 Error: 
+2026-09-01 19:12:58,770 - ERROR - \u2717 Error: 
+2026-09-01 19:12:58,836 - ERROR - \u2717 Error: 
+2026-09-01 19:12:58,889 - ERROR - \u2717 Error: 
+2026-09-01 19:12:58,956 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,020 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,089 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,153 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,206 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,268 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,322 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,388 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,451 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,512 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,569 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,584 - INFO - \u2713 Success (200): 46385ms
+2026-09-01 19:12:59,637 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,717 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,780 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,835 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,919 - ERROR - \u2717 Error: 
+2026-09-01 19:12:59,991 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,034 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,070 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,134 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,165 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,268 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,302 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,337 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,425 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,426 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,535 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,535 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,606 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,673 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,731 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,789 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,843 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,897 - ERROR - \u2717 Error: 
+2026-09-01 19:13:00,971 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,025 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,102 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,147 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,207 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,270 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,297 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,365 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,404 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,469 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,504 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,556 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,637 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,667 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,730 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,771 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,805 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,880 - ERROR - \u2717 Error: 
+2026-09-01 19:13:01,932 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,006 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,071 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,135 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,196 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,290 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,322 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,358 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,420 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,493 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,495 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,551 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,637 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,671 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,734 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,785 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,842 - ERROR - \u2717 Error: 
+2026-09-01 19:13:02,910 - ERROR - \u2717 Error: 
+2026-09-01 19:13:05,464 - ERROR - \u2717 Error: 
+2026-09-01 19:13:05,568 - ERROR - \u2717 Error: 
+2026-09-01 19:13:06,902 - ERROR - \u2717 Error: 
+2026-09-01 19:13:08,447 - ERROR - \u2717 Error: 
+2026-09-01 19:13:10,053 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,133 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,135 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,135 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,135 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,135 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,135 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,141 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,141 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,141 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,141 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,141 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,141 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,147 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,147 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,149 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,149 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,151 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,153 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,155 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,155 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,157 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,157 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,157 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,159 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,159 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,161 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,161 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,162 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,178 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,178 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,180 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,180 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,182 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,182 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,184 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,184 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,184 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,187 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,187 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,187 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,187 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,187 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,187 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,187 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,187 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,194 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,210 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,226 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,226 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,228 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,228 - ERROR - \u2717 Error: 
+2026-09-01 19:13:12,232 - INFO - 
+Report saved to: C:\Users\bhomp\Downloads\bedrock-poc\bedrock-poc\performance_reports\optimized_performance_report_20260901_191312.json
+2026-09-01 19:13:12,232 - ERROR - \u2717 Error: 
+
+********************************************************************************
+*                   BEDROCK POC - OPTIMIZED PERFORMANCE TEST                   *
+********************************************************************************
+
+
+================================================================================
+PERFORMANCE TEST RESULTS
+================================================================================
+
+Total Requests:        205
+Successful Requests:   25
+Failed Requests:       180
+Success Rate:          12.20%
+Throughput:            3.35 req/sec
+
+Response Times:
+  Min:                 1926ms
+  Max:                 46385ms
+  Average:             27956ms
+  P50 (Median):        27617ms
+  P95:                 45291ms
+  P99:                 45305ms
+
+Failure Breakdown:
+  server_error        :   180 ( 87.80%)
+  success             :    25 ( 12.20%)
+
+================================================================================

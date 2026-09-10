@@ -5,28 +5,31 @@ from __future__ import annotations
 import os
 from typing import Generator
 from urllib.parse import quote
+from dotenv import load_dotenv
 
 from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import sessionmaker, Session, declarative_base
+
+load_dotenv()
 
 Base = declarative_base()
 
 
 def get_database_url() -> str:
-    """Build PostgreSQL connection URL from environment variables.
+    """Build database connection URL from environment variables.
 
-    Expected format: postgresql://user:password@host:port/database
-
-    Environment variables:
-        DB_USER: PostgreSQL username (default: postgres)
-        DB_PASSWORD: PostgreSQL password (default: postgres)
-        DB_HOST: PostgreSQL host (default: localhost)
-        DB_PORT: PostgreSQL port (default: 5432)
-        DB_NAME: Database name (default: bedrock_poc)
+    Priority:
+    1. DATABASE_URL if set (supports sqlite:/// or postgresql://)
+    2. Fall back to PostgreSQL connection built from DB_* variables
 
     Returns:
         Full connection URL string.
     """
+    # Check for explicit DATABASE_URL first (SQLite or PostgreSQL)
+    if os.getenv("DATABASE_URL"):
+        return os.getenv("DATABASE_URL")
+
+    # Fall back to PostgreSQL
     user = os.getenv("DB_USER", "postgres")
     password = os.getenv("DB_PASSWORD", "postgres")
     host = os.getenv("DB_HOST", "localhost")
@@ -47,6 +50,16 @@ def create_db_engine(url: str | None = None) -> Engine:
         Configured SQLAlchemy engine.
     """
     url = url or get_database_url()
+
+    # SQLite-specific settings
+    if url.startswith("sqlite://"):
+        return create_engine(
+            url,
+            echo=False,
+            connect_args={"check_same_thread": False},
+        )
+
+    # PostgreSQL settings
     return create_engine(
         url,
         echo=False,  # Set to True for SQL query logging
